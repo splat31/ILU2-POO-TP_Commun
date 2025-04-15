@@ -3,9 +3,9 @@ package model;
 public class CalendrierAnnuel {
 	Mois[] calendrier;
 	
-	private CalendrierAnnuel() {
+	public CalendrierAnnuel() {
 		calendrier=new Mois[12];
-		String[] nommois = {"janvier","février","mars","avril","mai","juin","juillet","aout","septembre","octobre","novembre","decembre"};
+		String[] nommois = {"janvier","fï¿½vrier","mars","avril","mai","juin","juillet","aout","septembre","octobre","novembre","decembre"};
 		int[] jourmois = {31,28,31,30,31,30,31,31,30,31,30,31};
 		for (int i=0;i<12;i++) {
 			calendrier[i]= new Mois(nommois[i],jourmois[i]);
@@ -14,13 +14,13 @@ public class CalendrierAnnuel {
 	}
 	
 	
-	private boolean estLibre(int jour, int mois) {
-		return calendrier[mois-1].estLibre(jour);
+	public boolean estLibre(int jour, int mois) {
+		return calendrier[mois - 1].estLibre(jour - 1);
 	}
 	
-	private boolean reserver(int jour, int mois) {
+	public boolean reserver(int jour, int mois) {
 		try {
-			calendrier[mois-1].reserver(jour);
+			calendrier[mois-1].reserver(jour-1);
 		} catch (IllegalStateException e) {
 			return false;
 		}
@@ -42,16 +42,16 @@ public class CalendrierAnnuel {
 	
 	
 		private boolean estLibre(int jour) {
-			if (jour>=jours.length-1) {
+			if (jour < 0 || jour >= jours.length) {
 				return false;
 			}
-			return jours[jour-1];
+			return jours[jour];
 		}
 		
 		private void reserver(int jour) throws IllegalStateException  {
 			if (estLibre(jour)) {
-				jours[jour]=false;
-			}else {
+				jours[jour] = false;
+			} else {
 				throw new IllegalStateException();
 			}
 		}
